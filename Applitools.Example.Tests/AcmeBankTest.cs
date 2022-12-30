@@ -44,7 +44,7 @@ public class AcmeBankTest : IDisposable
         // https://www.selenium.dev/documentation/webdriver/waits/
         Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
 
-        // Create the Applitools Eyes object connected to the VisualGridRunner and set its configuration.
+        // Create the Applitools Eyes object connected to the runner and set its configuration.
         Eyes = new Eyes(fixture.Runner);
         Eyes.SetConfiguration(fixture.Config);
         Eyes.SaveNewTests = true;
@@ -99,7 +99,7 @@ public class AcmeBankTest : IDisposable
         // You will need to check the Applitools dashboard for visual results per checkpoint.
         // Note that "unresolved" and "failed" visual checkpoints will not cause the xUnit.net test to fail.
 
-        // If you want the xUnit.net test to wait synchronously for all checkpoints to complete, then use `eyes.close()`.
-        // If any checkpoints are unresolved or failed, then `eyes.close()` will make the xUnit.net test fail.
+        // If you want the xUnit.net test to wait synchronously for all checkpoints to complete, then use `Eyes.Close()`.
+        // If any checkpoints are unresolved or failed, then `Eyes.Close()` will make the xUnit.net test fail.
     }
 }

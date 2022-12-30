@@ -20,7 +20,7 @@ public class ApplitoolsFixture : IDisposable
 
   /// <summary>
   /// Sets up the configuration for running visual tests in the Ultrafast Grid.
-  /// The configuration is shared by all tests in a test suite, so it belongs in a `OneTimeSetUp` method.
+  /// The configuration is shared by all tests in a test suite, so it belongs in a collection fixture.
   /// If you have more than one test class, then you should abstract this configuration to avoid duplication.
   /// <summary>
   public ApplitoolsFixture()
