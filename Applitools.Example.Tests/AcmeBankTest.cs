@@ -52,10 +52,10 @@ public class AcmeBankTest : IDisposable
         // Open Eyes to start visual testing.
         // It is a recommended practice to set all four inputs:
         Eyes.Open(
-            Driver,                         // WebDriver object to "watch"
-            "ACME Bank Web App",            // The name of the app under test
-            test?.DisplayName,              // The name of the test case
-            new Size(1024, 768));           // The viewport size for the local browser
+            Driver,                                 // WebDriver object to "watch"
+            "ACME Bank Web App",                    // The name of the app under test
+            test?.TestCase.TestMethod.Method.Name,  // The name of the test case
+            new Size(1024, 768));                   // The viewport size for the local browser
     }
 
     /// <summary>
