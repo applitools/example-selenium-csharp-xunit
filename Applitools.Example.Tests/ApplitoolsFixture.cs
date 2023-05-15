@@ -9,6 +9,12 @@ namespace Applitools.Example.Tests;
 /// </summary>
 public class ApplitoolsFixture : IDisposable
 {
+  #pragma warning disable CS0162
+
+  // Test constants
+  public const bool UseUltrafastGrid = true;
+  public const bool UseExecutionCloud = false;
+
   // Test control inputs to read once and share for all tests
   public string? ApplitoolsApiKey;
   public bool Headless;
@@ -16,7 +22,7 @@ public class ApplitoolsFixture : IDisposable
   // Applitools objects to share for all tests
   public BatchInfo Batch;
   public Configuration Config;
-  public VisualGridRunner Runner;
+  public EyesRunner Runner;
 
   /// <summary>
   /// Sets up the configuration for running visual tests in the Ultrafast Grid.
@@ -33,15 +39,24 @@ public class ApplitoolsFixture : IDisposable
     // Use headed mode for local development.
     Headless = Environment.GetEnvironmentVariable("HEADLESS")?.ToLower() == "true";
 
-    // Create the runner for the Ultrafast Grid.
-    // Concurrency refers to the number of visual checkpoints Applitools will perform in parallel.
-    // Warning: If you have a free account, then concurrency will be limited to 1.
-    Runner = new VisualGridRunner(new RunnerOptions().TestConcurrency(5));
+    if (UseUltrafastGrid)
+    {
+      // Create the runner for the Ultrafast Grid.
+      // Concurrency refers to the number of visual checkpoints Applitools will perform in parallel.
+      // Warning: If you have a free account, then concurrency will be limited to 1.
+      Runner = new VisualGridRunner(new RunnerOptions().TestConcurrency(5));
+    }
+    else
+    {
+      // Create the Classic runner for local execution.
+      Runner = new ClassicRunner();
+    }
 
     // Create a new batch for tests.
     // A batch is the collection of visual checkpoints for a test suite.
     // Batches are displayed in the Eyes Test Manager, so use meaningful names.
-    Batch = new BatchInfo("Example: Selenium C# xUnit.net with the Ultrafast Grid");
+    String runnerName = (UseUltrafastGrid) ? "Ultrafast Grid" : "Classic Runner";
+    Batch = new BatchInfo($"Example: Selenium C# xUnit.net with the {runnerName}");
 
     // Create a configuration for Applitools Eyes.
     Config = new Configuration();
@@ -54,16 +69,19 @@ public class ApplitoolsFixture : IDisposable
     // Set the batch for the config.
     Config.SetBatch(Batch);
 
-    // Add 3 desktop browsers with different viewports for cross-browser testing in the Ultrafast Grid.
-    // Other browsers are also available, like Edge and IE.
-    Config.AddBrowser(800, 600, BrowserType.CHROME);
-    Config.AddBrowser(1600, 1200, BrowserType.FIREFOX);
-    Config.AddBrowser(1024, 768, BrowserType.SAFARI);
+    if (UseUltrafastGrid)
+    {
+      // Add 3 desktop browsers with different viewports for cross-browser testing in the Ultrafast Grid.
+      // Other browsers are also available, like Edge and IE.
+      Config.AddBrowser(800, 600, BrowserType.CHROME);
+      Config.AddBrowser(1600, 1200, BrowserType.FIREFOX);
+      Config.AddBrowser(1024, 768, BrowserType.SAFARI);
 
-    // Add 2 mobile emulation devices with different orientations for cross-browser testing in the Ultrafast Grid.
-    // Other mobile devices are available, including iOS.
-    Config.AddDeviceEmulation(DeviceName.Pixel_2, ScreenOrientation.Portrait);
-    Config.AddDeviceEmulation(DeviceName.Nexus_10, ScreenOrientation.Landscape);
+      // Add 2 mobile emulation devices with different orientations for cross-browser testing in the Ultrafast Grid.
+      // Other mobile devices are available, including iOS.
+      Config.AddDeviceEmulation(DeviceName.Pixel_2, ScreenOrientation.Portrait);
+      Config.AddDeviceEmulation(DeviceName.Nexus_10, ScreenOrientation.Landscape);
+    }
   }
 
   /// <summary>
@@ -76,6 +94,8 @@ public class ApplitoolsFixture : IDisposable
     TestResultsSummary allTestResults = Runner.GetAllTestResults();
     Console.WriteLine(allTestResults);
   }
+
+  #pragma warning restore CS0162
 }
 
 [CollectionDefinition("Applitools collection")]

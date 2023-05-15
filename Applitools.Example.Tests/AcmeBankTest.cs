@@ -1,6 +1,7 @@
 using Applitools.Selenium;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Remote;
 using System.Drawing;
 using System.Reflection;
 using Xunit;
@@ -14,6 +15,8 @@ namespace Applitools.Example.Tests;
 [Collection("Applitools collection")]
 public class AcmeBankTest : IDisposable
 {
+    #pragma warning disable CS0162
+
     // Test-specific objects
     private WebDriver Driver;
     private Eyes Eyes;
@@ -37,7 +40,17 @@ public class AcmeBankTest : IDisposable
         // it still needs to run the test one time locally to capture snapshots.
         ChromeOptions options = new ChromeOptions();
         if (fixture.Headless) options.AddArgument("headless");
-        Driver = new ChromeDriver(options);
+        
+        if (ApplitoolsFixture.UseExecutionCloud)
+        {
+            // Open the browser remotely in the Execution Cloud.
+            Driver = new RemoteWebDriver(new Uri(Eyes.GetExecutionCloudURL()), options);
+        }
+        else
+        {
+            // Create a local WebDriver.
+            Driver = new ChromeDriver(options);
+        }
 
         // Set an implicit wait of 10 seconds.
         // For larger projects, use explicit waits for better control.
@@ -116,4 +129,6 @@ public class AcmeBankTest : IDisposable
         // If you want the xUnit.net test to wait synchronously for all checkpoints to complete, then use `Eyes.Close()`.
         // If any checkpoints are unresolved or failed, then `Eyes.Close()` will make the xUnit.net test fail.
     }
+
+    #pragma warning restore CS0162
 }
