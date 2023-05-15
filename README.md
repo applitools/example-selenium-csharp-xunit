@@ -3,8 +3,7 @@
 This is the example project for the [Selenium C# xUnit.net tutorial](https://applitools.com/tutorials/quickstart/web/selenium/csharp/xunit).
 It shows how to start automating visual tests
 with [Applitools Eyes](https://applitools.com/platform/eyes/)
-and the [Ultrafast Grid](https://applitools.com/platform/ultrafast-grid/)
-using [Selenium WebDriver](https://www.selenium.dev/) in C#.
+and [Selenium WebDriver](https://www.selenium.dev/) in C#.
 
 It uses:
 

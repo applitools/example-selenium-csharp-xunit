@@ -25,7 +25,7 @@ public class ApplitoolsFixture : IDisposable
   public EyesRunner Runner;
 
   /// <summary>
-  /// Sets up the configuration for running visual tests in the Ultrafast Grid.
+  /// Sets up the configuration for running visual tests.
   /// The configuration is shared by all tests in a test suite, so it belongs in a collection fixture.
   /// If you have more than one test class, then you should abstract this configuration to avoid duplication.
   /// <summary>
