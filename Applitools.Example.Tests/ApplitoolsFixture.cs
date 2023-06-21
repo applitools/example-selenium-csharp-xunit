@@ -1,3 +1,4 @@
+using Applitools.Selenium;
 using Applitools.VisualGrid;
 using Xunit;
 using ScreenOrientation = Applitools.VisualGrid.ScreenOrientation;

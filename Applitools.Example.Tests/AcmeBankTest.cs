@@ -44,7 +44,7 @@ public class AcmeBankTest : IDisposable
         if (ApplitoolsFixture.UseExecutionCloud)
         {
             // Open the browser remotely in the Execution Cloud.
-            Driver = new RemoteWebDriver(new Uri(Eyes.GetExecutionCloudURL()), options);
+            Driver = new RemoteWebDriver(new Uri(Eyes.GetExecutionCloudUrl()), options);
         }
         else
         {
@@ -82,7 +82,7 @@ public class AcmeBankTest : IDisposable
             // The viewport size for the local browser.
             // Eyes will resize the web browser to match the requested viewport size.
             // This parameter is optional but encouraged in order to produce consistent results.
-            new Size(1024, 768));
+            new Size(1200, 600));
     }
 
     /// <summary>
@@ -117,7 +117,7 @@ public class AcmeBankTest : IDisposable
     public void Dispose()
     {
         // Close Eyes to tell the server it should display the results.
-        Eyes.CloseAsync();
+        Eyes.Close();
 
         // Quit the WebDriver instance.
         Driver.Quit();
